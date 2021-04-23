@@ -16,7 +16,37 @@ declare module 'express' {
     function Router(options?: RouterOptions): expressWs.Router;
 }
 
+interface wsWithSendJSON extends ws {
+    /**
+     * Send JSON data to the client
+     * 
+     * @param data The data to be sent to the client
+     */
+    sendJSON(data: Record<string, any>): void
+  }
+
 declare function expressWs(app: express.Application, server?: http.Server | https.Server, options?: expressWs.Options): expressWs.Instance;
+
+
+declare module '@devfolioco/express-ws' {
+/**
+ * Patch an Express Router to add the `ws` method to it
+ * 
+ * @note This function needs to be called at the start of every router
+ * 
+ * @param params 
+ * 
+ * @example
+ * ```
+ * import { Router } from 'express';
+ * import { addWsMethod } from '@devfolioco/express-ws';
+ * 
+ * addWsMethod(Router)
+ * ```
+ */
+export function addWsMethod(params:express.Router): void
+}
+
 declare namespace expressWs {
     type Application = express.Application & WithWebsocketMethod;
     type Router = express.Router & WithWebsocketMethod;
@@ -38,7 +68,7 @@ declare namespace expressWs {
         getWss(): ws.Server;
     }
 
-    type WebsocketRequestHandler = (ws: ws, req: express.Request, next: express.NextFunction) => void;
+    type WebsocketRequestHandler = (ws: wsWithSendJSON, req: express.Request, next: express.NextFunction) => void;
     type WebsocketMethod<T> = (route: core.PathParams, ...middlewares: WebsocketRequestHandler[]) => T;
 
     interface WithWebsocketMethod {

@@ -50,6 +50,19 @@ export default function expressWs(app, httpServer, options = {}) {
     request.ws = socket;
     request.wsHandled = false;
 
+    /**
+     * Add a sendJSON method to `ws` which
+     * stringifies the data and sends it to the
+     * client
+     */
+    request.ws.sendJSON = function addSendJSON(data) {
+      if (typeof data !== 'object') {
+        throw String('The data is not an object');
+      }
+
+      return request.ws.send(JSON.stringify(data));
+    };
+
     /* By setting this fake `.url` on the request, we ensure that it will end up in the fake
      * `.get` handler that we defined above - where the wrapper will then unpack the `.ws`
      * property, indicate that the WebSocket has been handled, and call the actual handler. */
