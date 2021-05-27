@@ -1,6 +1,6 @@
 {
   "name": "@devfolioco/express-ws",
-  "version": "5.0.1",
+  "version": "6.0.0",
   "description": "WebSocket endpoints for Express applications",
   "main": "index",
   "module": "src/index",
@@ -21,13 +21,13 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "esm": "^3.0.84",
-    "ws": "^6.0.0"
+    "ws": "^7.4.6"
   },
   "peerDependencies": {
     "express": "^4.0.0 || ^5.0.0-alpha.1"
   },
   "engines": {
-    "node": ">=4.5.0"
+    "node": ">=8.3.0"
   },
   "directories": {
     "example": "examples"
